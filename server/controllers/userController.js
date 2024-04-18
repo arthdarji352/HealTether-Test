@@ -36,8 +36,11 @@ export const registerController = async (req, res) => {
       newUser,
     });
   } catch (error) {
-    console.log(error, "Error in Register Controller");
-    res.status(500).json({ message: "error while registering user" });
+    // console.log(error, "Error in Register Controller");
+    res.status(500).send({
+      success: false,
+      message: "error while registering user",
+    });
   }
 };
 
@@ -75,12 +78,19 @@ export const loginController = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.status(200).cookie("token", token).send({
-      success: true,
-      message: "Login Successfully",
-      token,
-      user,
-    });
+    user.password = undefined;
+
+    res
+      .status(200)
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+      })
+      .send({
+        success: true,
+        message: "Login Successfully",
+        token,
+        user,
+      });
   } catch (error) {
     res.status(500).send({
       success: "false",
@@ -101,4 +111,14 @@ export const getUserController = async (req, res) => {
     success: true,
     user,
   });
+};
+
+//signout
+export const signout = async (req, res, next) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json("User Logout Successfully");
+  } catch (error) {
+    next(error);
+  }
 };

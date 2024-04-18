@@ -1,7 +1,7 @@
 import JWT from "jsonwebtoken";
 
 const auth = async (req, res, next) => {
-  const { token } = req.cookies;
+  const token = req.cookies.token;
   //valdiation
   if (!token) {
     return res.status(401).send({

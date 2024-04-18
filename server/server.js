@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.use("/api/v1/user", userRoute);
+app.use("/api/v1/auth", userRoute);
 app.use("/api/v1/employee", empoyeeRoute);
 
 app.get("/", (req, res) => {
