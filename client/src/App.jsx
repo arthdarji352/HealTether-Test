@@ -6,16 +6,19 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AddEmployee from "./components/AddEmployee";
 import UpdateEmployee from "./components/updateEmployee";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route index path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/add-employee" element={<AddEmployee />} />
-        <Route path="/update-employee/:id" element={<UpdateEmployee />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/add-employee" element={<AddEmployee />} />
+          <Route path="/update-employee/:id" element={<UpdateEmployee />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
